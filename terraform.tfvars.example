@@ -1,0 +1,12 @@
+# Copy to terraform.tfvars (gitignored) and fill in.
+billing_account           = "XXXXXX-XXXXXX-XXXXXX"
+terraform_service_account = "terraform@SEED_PROJECT_ID.iam.gserviceaccount.com"
+state_bucket              = "SEED_PROJECT_ID-tfstate"
+project_prefix            = "shv"
+
+# Optional: defaults shown. Keys must match the folders output.
+# environments = {
+#   development   = "dev"
+#   nonproduction = "nonprod"
+#   production    = "prod"
+# }

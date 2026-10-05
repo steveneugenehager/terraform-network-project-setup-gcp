@@ -1,0 +1,4 @@
+# Copy to backend.hcl and fill in values from the bootstrap outputs.
+bucket                      = "SEED_PROJECT_ID-tfstate"
+prefix                      = "projects/network-hosts"
+impersonate_service_account = "terraform@SEED_PROJECT_ID.iam.gserviceaccount.com"
