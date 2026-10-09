@@ -11,6 +11,7 @@
 # 2026-10-04  Steve Hager                1.0.0    Initial creation.
 # 2026-10-09  Steve Hager                1.1.0    Service account renamed to terraform-super-
 #                                                 admin; environments now lab and dev.
+# 2026-10-09  Steve Hager                1.2.0    Added host_project_tag_value example.
 # --------------------------------------------------------------------------------------------------
 
 # Copy to terraform.tfvars (gitignored) and fill in.
@@ -26,3 +27,7 @@ project_prefix            = "shv"
 #   dev = "dev"
 # }
 # host_subfolder = "infrastructure"
+
+# Tag that keeps host projects network-only (no VMs). From terraform-org-level-policy-gcp:
+#   terraform output host_project_tag_value
+# host_project_tag_value = "tagValues/123456789012"

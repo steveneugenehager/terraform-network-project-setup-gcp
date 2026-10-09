@@ -13,6 +13,9 @@
 #                                                 grant in each environment's infrastructure
 #                                                 subfolder (subfolder_ids output) instead of the
 #                                                 environment folder.
+# 2026-10-09  Steve Hager                1.2.0    Bind the shared-vpc-host tag to each host
+#                                                 project, so the org-policy repo's no-VM
+#                                                 guardrail applies to it.
 # --------------------------------------------------------------------------------------------------
 
 # ---------------------------------------------------------------------------
@@ -121,4 +124,18 @@ resource "google_compute_shared_vpc_host_project" "host" {
     google_project_service.host,
     time_sleep.iam_propagation,
   ]
+}
+
+# ---------------------------------------------------------------------------
+# Tag each host project "purpose: shared-vpc-host". The org-policy repo
+# denies VM creation wherever this tag is bound, so host projects stay
+# network-only. Binding needs tagUser on the value (granted there) and
+# owner-level access on the project (held as its creator).
+# ---------------------------------------------------------------------------
+
+resource "google_tags_tag_binding" "host" {
+  for_each = var.host_project_tag_value == null ? {} : var.environments
+
+  parent    = "//cloudresourcemanager.googleapis.com/projects/${google_project.host[each.key].number}"
+  tag_value = var.host_project_tag_value
 }

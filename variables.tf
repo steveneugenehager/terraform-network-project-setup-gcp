@@ -11,6 +11,8 @@
 # 2026-10-04  Steve Hager                1.0.0    Initial creation.
 # 2026-10-09  Steve Hager                1.1.0    Default environments to lab and dev to match the
 #                                                 folders stage; added host_subfolder.
+# 2026-10-09  Steve Hager                1.2.0    Added host_project_tag_value for the no-VM
+#                                                 guardrail tag.
 # --------------------------------------------------------------------------------------------------
 
 variable "billing_account" {
@@ -84,4 +86,15 @@ variable "iam_propagation_wait" {
   description = "Pause after granting Shared VPC Admin, so the grant takes effect before it is used."
   type        = string
   default     = "90s"
+}
+
+variable "host_project_tag_value" {
+  description = "Tag value ID (tagValues/NNN) bound to every host project; terraform-org-level-policy-gcp denies VMs where it is bound. Get it with: terraform output host_project_tag_value (in that repo). Null = no binding."
+  type        = string
+  default     = null
+
+  validation {
+    condition     = var.host_project_tag_value == null || can(regex("^tagValues/[0-9]+$", var.host_project_tag_value))
+    error_message = "Use the tag value ID, e.g. tagValues/123456789012."
+  }
 }

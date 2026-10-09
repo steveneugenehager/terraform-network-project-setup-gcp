@@ -15,7 +15,10 @@ Add an environment (e.g. `prod = "prod"`) to `environments` once the folders
 stage has created it.
 
 Each project is linked to billing, has the Compute Engine and Cloud DNS APIs
-enabled, has no default network, and is designated a Shared VPC host. The
+enabled, has no default network, and is designated a Shared VPC host. When
+`host_project_tag_value` is set, each project is also tagged
+`purpose: shared-vpc-host`, which terraform-org-level-policy-gcp uses to deny VM
+creation there, so host projects stay network-only. The
 networks themselves are built by the network stage.
 
 ## Dependencies
@@ -26,6 +29,8 @@ networks themselves are built by the network stage.
   bootstrap's `org_id` is set).
 - **Folders**: each environment's `infrastructure` subfolder, read from the
   `subfolder_ids` output in state at `org/folders`.
+- **Org policy** (optional): the `shared-vpc-host` tag and tagUser on it for
+  the Terraform service account, from terraform-org-level-policy-gcp.
 
 This configuration grants the Terraform service account **Shared VPC Admin**
 (`roles/compute.xpnAdmin`) on each infrastructure subfolder, which enabling a Shared
