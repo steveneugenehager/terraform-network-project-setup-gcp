@@ -1,14 +1,18 @@
 # GCP Shared VPC Host Projects
 
 Creates one Shared VPC host project per environment, each in its environment's
-folder:
+infrastructure subfolder:
 
 ```
 Organization
-├── fldr-development    └── prj-dev-net-host
-├── fldr-nonproduction  └── prj-nonprod-net-host
-└── fldr-production     └── prj-prod-net-host
+├── fldr-lab
+│   └── fldr-lab-infrastructure    └── prj-lab-net-host
+└── fldr-dev
+    └── fldr-dev-infrastructure    └── prj-dev-net-host
 ```
+
+Add an environment (e.g. `prod = "prod"`) to `environments` once the folders
+stage has created it.
 
 Each project is linked to billing, has the Compute Engine and Cloud DNS APIs
 enabled, has no default network, and is designated a Shared VPC host. The
@@ -20,10 +24,11 @@ networks themselves are built by the network stage.
   needs Billing Account User (bootstrap `grant_billing_user = true`) and
   Project Creator and Folder Admin at the organization (granted when the
   bootstrap's `org_id` is set).
-- **Folders**: environment folders, read from state at `org/folders`.
+- **Folders**: each environment's `infrastructure` subfolder, read from the
+  `subfolder_ids` output in state at `org/folders`.
 
 This configuration grants the Terraform service account **Shared VPC Admin**
-(`roles/compute.xpnAdmin`) on each environment folder, which enabling a Shared
+(`roles/compute.xpnAdmin`) on each infrastructure subfolder, which enabling a Shared
 VPC host requires. It can do so because Folder Admin includes permission to
 set folder IAM policy.
 
@@ -53,12 +58,12 @@ data "terraform_remote_state" "network_hosts" {
   config = {
     bucket                      = "SEED_PROJECT_ID-tfstate"
     prefix                      = "projects/network-hosts"
-    impersonate_service_account = "terraform@SEED_PROJECT_ID.iam.gserviceaccount.com"
+    impersonate_service_account = "terraform-super-admin@SEED_PROJECT_ID.iam.gserviceaccount.com"
   }
 }
 
 locals {
-  host_project_id = data.terraform_remote_state.network_hosts.outputs.host_project_ids["development"]
+  host_project_id = data.terraform_remote_state.network_hosts.outputs.host_project_ids["lab"]
 }
 ```
 

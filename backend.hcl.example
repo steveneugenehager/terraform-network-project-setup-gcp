@@ -1,4 +1,19 @@
+# ==================================================================================================
+# File:        backend.hcl.example
+# Module:      terraform-network-project-setup-gcp
+# Description: Example partial backend config for terraform init -backend-config.
+# ==================================================================================================
+#
+# Change History
+# --------------------------------------------------------------------------------------------------
+# Date        Author                     Version  Description
+# ----------  -------------------------  -------  --------------------------------------------------
+# 2026-10-04  Steve Hager                1.0.0    Initial creation.
+# 2026-10-09  Steve Hager                1.1.0    Service account renamed to terraform-super-admin
+#                                                 to match the bootstrap repo.
+# --------------------------------------------------------------------------------------------------
+
 # Copy to backend.hcl and fill in values from the bootstrap outputs.
 bucket                      = "SEED_PROJECT_ID-tfstate"
 prefix                      = "projects/network-hosts"
-impersonate_service_account = "terraform@SEED_PROJECT_ID.iam.gserviceaccount.com"
+impersonate_service_account = "terraform-super-admin@SEED_PROJECT_ID.iam.gserviceaccount.com"

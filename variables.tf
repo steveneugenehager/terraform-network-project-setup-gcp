@@ -1,3 +1,18 @@
+# ==================================================================================================
+# File:        variables.tf
+# Module:      terraform-network-project-setup-gcp
+# Description: Input variables for the host projects.
+# ==================================================================================================
+#
+# Change History
+# --------------------------------------------------------------------------------------------------
+# Date        Author                     Version  Description
+# ----------  -------------------------  -------  --------------------------------------------------
+# 2026-10-04  Steve Hager                1.0.0    Initial creation.
+# 2026-10-09  Steve Hager                1.1.0    Default environments to lab and dev to match the
+#                                                 folders stage; added host_subfolder.
+# --------------------------------------------------------------------------------------------------
+
 variable "billing_account" {
   description = "Billing account ID to link the host projects to."
   type        = string
@@ -31,13 +46,18 @@ variable "project_prefix" {
 }
 
 variable "environments" {
-  description = "Environment folder names (keys in the folders output) mapped to short names used in project IDs."
+  description = "Environment folder keys (as in the folders stage's environments) mapped to short names used in project IDs."
   type        = map(string)
   default = {
-    development   = "dev"
-    nonproduction = "nonprod"
-    production    = "prod"
+    lab = "lab"
+    dev = "dev"
   }
+}
+
+variable "host_subfolder" {
+  description = "Subfolder of each environment folder that holds its host project (a folders-stage env_subfolders entry)."
+  type        = string
+  default     = "infrastructure"
 }
 
 variable "host_project_apis" {

@@ -1,12 +1,28 @@
+# ==================================================================================================
+# File:        terraform.tfvars.example
+# Module:      terraform-network-project-setup-gcp
+# Description: Example input values; copy to terraform.tfvars.
+# ==================================================================================================
+#
+# Change History
+# --------------------------------------------------------------------------------------------------
+# Date        Author                     Version  Description
+# ----------  -------------------------  -------  --------------------------------------------------
+# 2026-10-04  Steve Hager                1.0.0    Initial creation.
+# 2026-10-09  Steve Hager                1.1.0    Service account renamed to terraform-super-
+#                                                 admin; environments now lab and dev.
+# --------------------------------------------------------------------------------------------------
+
 # Copy to terraform.tfvars (gitignored) and fill in.
 billing_account           = "XXXXXX-XXXXXX-XXXXXX"
-terraform_service_account = "terraform@SEED_PROJECT_ID.iam.gserviceaccount.com"
+terraform_service_account = "terraform-super-admin@SEED_PROJECT_ID.iam.gserviceaccount.com"
 state_bucket              = "SEED_PROJECT_ID-tfstate"
 project_prefix            = "shv"
 
-# Optional: defaults shown. Keys must match the folders output.
+# Optional: defaults shown. Keys are folders-stage environment names;
+# each needs a "<env>/infrastructure" subfolder.
 # environments = {
-#   development   = "dev"
-#   nonproduction = "nonprod"
-#   production    = "prod"
+#   lab = "lab"
+#   dev = "dev"
 # }
+# host_subfolder = "infrastructure"

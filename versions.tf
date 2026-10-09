@@ -1,5 +1,20 @@
+# ==================================================================================================
+# File:        versions.tf
+# Module:      terraform-network-project-setup-gcp
+# Description: Terraform and provider versions, GCS backend, and impersonating provider.
+# ==================================================================================================
+#
+# Change History
+# --------------------------------------------------------------------------------------------------
+# Date        Author                     Version  Description
+# ----------  -------------------------  -------  --------------------------------------------------
+# 2026-10-04  Steve Hager                1.0.0    Initial creation.
+# 2026-10-09  Steve Hager                1.1.0    required_version >= 1.6 to match the bootstrap
+#                                                 repo.
+# --------------------------------------------------------------------------------------------------
+
 terraform {
-  required_version = ">= 1.5"
+  required_version = ">= 1.6"
 
   required_providers {
     google = {
